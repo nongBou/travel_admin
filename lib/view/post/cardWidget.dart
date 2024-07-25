@@ -75,9 +75,12 @@ class _CardWidgetsState extends State<CardWidgets> {
                     widget.username,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    widget.address,
-                    style: TextStyle(fontSize: 12),
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 0.5,
+                    child: Text(
+                      "${widget.address}",
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ),
                 ],
               ),

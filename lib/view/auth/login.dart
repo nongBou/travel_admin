@@ -11,6 +11,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  bool seepw = false;
   final email = TextEditingController();
   final password = TextEditingController();
   final globalKey = GlobalKey<FormState>();
@@ -63,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
                         border: Border.all(color: Colors.grey)),
                     child: TextFormField(
                       controller: password,
+                      obscureText: !seepw,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "ລະຫັດຜ່ານຫ້າມວ່າງ!";
@@ -70,6 +72,13 @@ class _LoginViewState extends State<LoginView> {
                         return null;
                       },
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  seepw = !seepw;
+                                });
+                              },
+                              icon: Icon(Icons.remove_red_eye)),
                           hintText: "Password..",
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
                           border: OutlineInputBorder(
