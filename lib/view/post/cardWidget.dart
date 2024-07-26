@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:travel_admin/components/colors.dart';
+import 'package:travel_admin/components/messageHepler.dart';
 import 'package:travel_admin/provider/post_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardWidgets extends StatefulWidget {
   final String reportid;
@@ -71,15 +73,35 @@ class _CardWidgetsState extends State<CardWidgets> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.username,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
                   Container(
-                    width: MediaQuery.sizeOf(context).width * 0.5,
+                    width: MediaQuery.sizeOf(context).width * 0.6,
                     child: Text(
-                      "${widget.address}",
-                      style: TextStyle(fontSize: 12),
+                      widget.username,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      var link = await Uri.tryParse(widget.address);
+                      if (link != null) {
+                        if (await canLaunchUrl(link!)) {
+                          launchUrl(link);
+                        } else {
+                          MessageHepler.showSnackBarMessage(
+                              isSuccess: false, message: "invalid Url");
+                        }
+                      } else {
+                        MessageHepler.showSnackBarMessage(
+                            isSuccess: false, message: "invalid Url");
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.5,
+                      child: Text(
+                        "${widget.address}",
+                        style: TextStyle(fontSize: 12),
+                      ),
                     ),
                   ),
                 ],
