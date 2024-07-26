@@ -7,6 +7,7 @@ import 'package:readmore/readmore.dart';
 import 'package:travel_admin/components/colors.dart';
 import 'package:travel_admin/components/messageHepler.dart';
 import 'package:travel_admin/provider/post_provider.dart';
+import 'package:travel_admin/view/post/slidimage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CardWidgets extends StatefulWidget {
@@ -211,35 +212,42 @@ class _CardWidgetsState extends State<CardWidgets> {
                 ),
               )
             : Container(),
-        Container(
-          padding: EdgeInsets.all(2),
-          height: 400,
-          width: double.infinity,
-          child: FittedGridView(
-            maxItemDisplay: 4,
-            itemCount: widget.image.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  padding: EdgeInsets.all(0.8),
-                  child: Image.network(
-                    widget.image[index],
-                    height: 400,
-                    fit: BoxFit.cover,
-                  ));
-            },
-            remainingItemsOverlay: (remain) {
-              return Container(
-                color: Colors.grey.withOpacity(0.2),
-                alignment: Alignment.center,
-                child: Text(
-                  "+$remain",
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-              );
-            },
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return Slideimage(images: widget.image);
+            }));
+          },
+          child: Container(
+            padding: EdgeInsets.all(2),
+            height: 400,
+            width: double.infinity,
+            child: FittedGridView(
+              maxItemDisplay: 4,
+              itemCount: widget.image.length,
+              itemBuilder: (context, index) {
+                return Container(
+                    padding: EdgeInsets.all(0.8),
+                    child: Image.network(
+                      widget.image[index],
+                      height: 400,
+                      fit: BoxFit.cover,
+                    ));
+              },
+              remainingItemsOverlay: (remain) {
+                return Container(
+                  color: Colors.grey.withOpacity(0.2),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "+$remain",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                );
+              },
+            ),
           ),
         ),
         Padding(

@@ -45,10 +45,13 @@ class PostProvider extends ChangeNotifier {
     }
   }
 
+  bool isaddcate = false;
   Future<void> addcate({
     required String name,
   }) async {
     try {
+      isaddcate = true;
+      notifyListeners();
       final result = await service.addCategory(name: name, image: image!);
       if (result == true) {
         image = null;
@@ -60,15 +63,20 @@ class PostProvider extends ChangeNotifier {
         MessageHepler.showSnackBarMessage(
             isSuccess: true, message: "Deleted Post Fail");
       }
+      isaddcate = false;
+      notifyListeners();
     } catch (e) {}
   }
 
+  bool isaddadmin = false;
   Future<void> addadmin({
     required String name,
     required String email,
     required String password,
   }) async {
     try {
+      isaddadmin = true;
+      notifyListeners();
       final result = await service.addadmin(
         name: name,
         email: email,
@@ -81,6 +89,8 @@ class PostProvider extends ChangeNotifier {
         MessageHepler.showSnackBarMessage(
             isSuccess: true, message: "Add ADMIN Fail");
       }
+      isaddadmin = false;
+      notifyListeners();
     } catch (e) {}
   }
 

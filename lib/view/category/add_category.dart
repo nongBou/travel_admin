@@ -82,29 +82,31 @@ class _AddCateState extends State<AddCate> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.all(10),
                   child: Center(
-                    child: ElevatedButton(
-                        onPressed: () {
-                          name.text != ""
-                              ? cb.addcate(name: name.text).then((_) {
-                                  name.text = "";
-                                })
-                              : null;
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Container(
-                          width: double.infinity,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            "Add",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
+                    child: cb.isaddcate == false
+                        ? ElevatedButton(
+                            onPressed: () {
+                              name.text != ""
+                                  ? cb.addcate(name: name.text).then((_) {
+                                      name.text = "";
+                                    })
+                                  : null;
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Container(
+                              width: double.infinity,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                "Add",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                        : CircularProgressIndicator(),
                   ),
                 )
               ],

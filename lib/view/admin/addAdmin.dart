@@ -133,40 +133,42 @@ class _AddadminState extends State<Addadmin> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.all(10),
                   child: Center(
-                    child: ElevatedButton(
-                        onPressed: () {
-                          name.text != "" &&
-                                  email.text != "" &&
-                                  password.text != ""
-                              ? cb
-                                  .addadmin(
-                                      name: name.text,
-                                      email: email.text,
-                                      password: password.text)
-                                  .then((_) {
-                                  name.text = "";
-                                }).then((_) {
-                                  name.clear();
-                                  email.clear();
-                                  password.clear();
-                                })
-                              : null;
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Container(
-                          width: double.infinity,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            "Add",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
+                    child: cb.isaddadmin == false
+                        ? ElevatedButton(
+                            onPressed: () {
+                              name.text != "" &&
+                                      email.text != "" &&
+                                      password.text != ""
+                                  ? cb
+                                      .addadmin(
+                                          name: name.text,
+                                          email: email.text,
+                                          password: password.text)
+                                      .then((_) {
+                                      name.text = "";
+                                    }).then((_) {
+                                      name.clear();
+                                      email.clear();
+                                      password.clear();
+                                    })
+                                  : null;
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Container(
+                              width: double.infinity,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                "Add",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                        : CircularProgressIndicator(),
                   ),
                 )
               ],
