@@ -33,6 +33,29 @@ class PostProvider extends ChangeNotifier {
     getallpost();
   }
 
+  bool isadads = false;
+  Future<void> addads() async {
+    try {
+      isadads = true;
+      notifyListeners();
+      final result = await service.addads(image: image!);
+      if (result == 1) {
+        image = null;
+        isadads = false;
+        notifyListeners();
+      }
+      isadads = false;
+      notifyListeners();
+    } catch (e) {}
+  }
+
+  Future<void> deleteads({required String id}) async {
+    try {
+      final result = await service.deleteads(id: id);
+      if (result == 1) {}
+    } catch (e) {}
+  }
+
   Future<void> pickimage() async {
     try {
       final img = await imagepicker.pickImage(source: ImageSource.gallery);

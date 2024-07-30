@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_admin/view/admin/admin.dart';
+import 'package:travel_admin/view/advertisement/advertisement.dart';
 import 'package:travel_admin/view/auth/login.dart';
 import 'package:travel_admin/view/category/category.dart';
 import 'package:travel_admin/view/dashboard/dashboard.dart';
@@ -21,6 +22,7 @@ class RouteAPI {
   static const admin = "/admin";
   static const reportpost = "/report_post";
   static const report = "/report";
+  static const advertiesment = "/advertiesment";
 
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
@@ -54,6 +56,8 @@ class RouteAPI {
         return MaterialPageRoute(builder: (context) => const Reportpost());
       case report:
         return MaterialPageRoute(builder: (context) => const Report());
+      case advertiesment:
+        return MaterialPageRoute(builder: (context) => const Advertisement());
       default:
         throw const FormatException("Route not found!");
     }

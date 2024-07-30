@@ -52,6 +52,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'name': 'Report',
       'press': () => navService.pushNamed('/report'),
     },
+    {
+      'img': 'assets/images/ads.png',
+      'name': 'Advertisement',
+      'press': () => navService.pushNamed('/advertiesment'),
+    },
   ];
 
   Widget gradViewBuild() {

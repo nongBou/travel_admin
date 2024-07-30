@@ -37,6 +37,34 @@ class PostService {
     }
   }
 
+  Future<int> addads({required File image}) async {
+    try {
+      final metadata = SettableMetadata(contentType: 'image/png');
+      final imageRef = storage.ref().child("advertiesment/${DateTime.now()}");
+      await imageRef.putFile(image, metadata);
+      final String imageurl = await imageRef.getDownloadURL();
+
+      DocumentReference a = await firestore.collection("advertiesment").doc();
+      String id = a.id;
+
+      a.set({"id": id, "image": imageurl});
+      return 1;
+    } catch (e) {
+      return 2;
+    }
+  }
+
+  Future<int> deleteads({required String id}) async {
+    try {
+      DocumentReference a = await firestore.collection("advertiesment").doc(id);
+      a.delete();
+
+      return 1;
+    } catch (e) {
+      return 2;
+    }
+  }
+
   Future<bool> addcate({
     required File image,
     required String name,
