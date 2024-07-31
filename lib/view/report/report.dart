@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_admin/components/colors.dart';
@@ -89,15 +91,112 @@ class _ReportState extends State<Report> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
-                return optioncard(
-                    content: "Categories Report",
-                    image: 'assets/images/menu2.jpeg',
-                    title: "Categories",
-                    data: snapshot.data);
+                return optioncardcate(
+                  content: "Categories Report",
+                  image: 'assets/images/menu2.jpeg',
+                  title: "Categories",
+                  datas: snapshot.data,
+                );
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Container optioncardcate(
+      {required String title,
+      required String image,
+      required List datas,
+      required String content}) {
+    List data = [];
+
+    Future<void> getdatafromcate({required List cate}) async {
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection('post');
+
+      cate.forEach((action) async {
+        var name = action["name"];
+        QuerySnapshot qr =
+            await collectionRef.where("category", isEqualTo: name).get();
+        data.add({"name": name, "post": qr.docs.length});
+        // print("${name} ${qr.docs.length}");
+      });
+    }
+
+    getdatafromcate(cate: datas);
+
+    return Container(
+      child: GestureDetector(
+        child: Card(
+          child: Row(
+            children: [
+              Container(width: 100, child: Image.asset(image)),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    title,
+                    style: TextStyle(color: primaryColor, fontSize: 50),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        onTap: () {
+          data.sort(
+            (a, b) => b["post"].compareTo(a["post"]),
+          );
+
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(content),
+                  content: Container(
+                    width: double.maxFinite,
+                    height: 300, // Set a fixed height for the ListView
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 250,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                dense: true,
+                                title: Text(
+                                    style: TextStyle(fontSize: 18),
+                                    "${index + 1}. ${data[index]["name"]}"),
+                                subtitle: Text(
+                                    style: TextStyle(fontSize: 15),
+                                    "     - Posts: ${data[index]["post"]}"),
+                              );
+                            },
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                            width: double.infinity,
+                            child: Text(
+                              "Total: ${data.length}",
+                              textAlign: TextAlign.end,
+                            ))
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text("Cancel"))
+                  ],
+                );
+              });
+        },
       ),
     );
   }
